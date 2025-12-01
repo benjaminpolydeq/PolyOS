@@ -1,0 +1,154 @@
+#!/bin/bash
+
+# Crée dossier projet
+mkdir -p PolyOS
+cd PolyOS || exit
+
+# Crée ars_core.py
+cat > ars_core.py << 'EOF'
+class ARSKernel:
+    def __init__(self):
+        self.prev = 0
+        self.curr = 1
+        self.history = []
+
+    def adapt(self, context=0):
+        nxt = self.curr + (self.curr - self.prev) + context
+        self.prev, self.curr = self.curr, nxt
+        self.history.append(nxt)
+        return nxt
+
+    def run_steps(self, steps=10, context_fn=None):
+        results = []
+        for i in range(steps):
+            ctx = context_fn(i) if context_fn else 0
+            results.append(self.adapt(ctx))
+        return results
+EOF
+
+# Crée main.py
+cat > main.py << 'EOF'
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import StringProperty
+from ars_core import ARSKernel
+
+class MainLayout(BoxLayout):
+    output_text = StringProperty("Welcome to PolyOS ARS Kernel")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.kernel = ARSKernel()
+
+    def run_kernel(self):
+        results = self.kernel.run_steps(10)
+        self.output_text = "Kernel outputs:\n" + ", ".join(str(x) for x in results)
+
+class PolyOSApp(App):
+    def build(self):
+        return MainLayout()
+
+if __name__ == "__main__":
+    PolyOSApp().run()
+EOF
+
+# Crée mobile.kv
+cat > mobile.kv << 'EOF'
+<MainLayout>:
+    orientation: "vertical"
+    padding: 10
+    spacing: 10
+
+    Label:
+        text: root.output_text
+        size_hint_y: 0.8
+        text_size: self.width, None
+        halign: "center"
+        valign: "middle"
+
+    Button:
+        text: "Run ARS Kernel"
+        size_hint_y: 0.2
+        on_press: root.run_kernel()
+EOF
+
+# Crée network_sim.py
+cat > network_sim.py << 'EOF'
+import random
+from ars_core import ARSKernel
+
+class ARSNode:
+    def __init__(self, name):
+        self.name = name
+        self.kernel = ARSKernel()
+
+    def step(self):
+        context = random.randint(-5,5)
+        return self.kernel.adapt(context)
+
+class ARSNetwork:
+    def __init__(self, num_nodes=5):
+        self.nodes = [ARSNode(f"Node{i}") for i in range(num_nodes)]
+
+    def simulate(self, steps=10):
+        for s in range(steps):
+            states = {node.name: node.step() for node in self.nodes}
+            print(f"Step {s+1}: {states}")
+
+if __name__ == "__main__":
+    network = ARSNetwork()
+    network.simulate()
+EOF
+
+# Crée filesystem.py
+cat > filesystem.py << 'EOF'
+class VirtualFile:
+    def __init__(self, name, content=""):
+        self.name = name
+        self.content = content
+
+class VirtualDirectory:
+    def __init__(self, name):
+        self.name = name
+        self.children = {}  # name -> file or directory
+
+    def add_file(self, filename, content=""):
+        self.children[filename] = VirtualFile(filename, content)
+
+    def add_dir(self, dirname):
+        self.children[dirname] = VirtualDirectory(dirname)
+
+    def list_contents(self):
+        return list(self.children.keys())
+
+if __name__ == "__main__":
+    root = VirtualDirectory("root")
+    root.add_dir("docs")
+    root.add_file("readme.txt", "This is PolyOS virtual fs")
+    print("Root contents:", root.list_contents())
+EOF
+
+# Crée README.md
+cat > README.md << 'EOF'
+# PolyOS — Adaptive Recursive System OS Prototype
+
+PolyOS is a modular prototype OS built around the ARS (Adaptive Recursive System) kernel concept, inspired by the BenPolySeq algorithm.
+
+## Features
+- ARS adaptive kernel core
+- Simple mobile UI with Kivy
+- Network simulation of ARS nodes
+- Virtual hierarchical filesystem
+- Ready for Android APK build with Buildozer
+
+## Setup & Run
+
+```bash
+# Install dependencies
+pip install kivy
+
+# Run mobile app
+python main.py
+
+# Run network simulation
+python network_sim.py
