@@ -1,0 +1,33 @@
+polyos/
+├─ .github/
+│  └─ workflows/
+│     └─ ci.yml
+├─ .gitignore
+├─ LICENSE
+├─ README.md
+├─ Makefile
+├─ tools/
+│  ├─ qemu_run.sh
+│  └─ build_initramfs.sh
+├─ boot/
+│  └─ grub.cfg
+├─ kernel/
+│  ├─ Cargo.toml
+│  └─ src/
+│     └─ main.rs
+├─ initramfs/
+│  ├─ init
+│  └─ usr/
+│     └─ bin/
+│        └─ arsd
+├─ user/
+│  ├─ arsd/
+│  │  ├─ ars_core.py
+│  │  └─ arsd.py
+│  ├─ main.py
+│  └─ mobile.kv
+├─ examples/
+│  ├─ network_sim.py
+│  └─ filesystem.py
+└─ docs/
+   └─ ARCHITECTURE.md
