@@ -1,0 +1,7 @@
+/target/
+/build/
+/initramfs.cpio
+**/*.pyc
+__pycache__/
+.vscode/
+.DS_Store
