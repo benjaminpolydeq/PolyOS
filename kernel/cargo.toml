@@ -1,0 +1,12 @@
+[package]
+name = "polyos-kernel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# no_std minimal dependencies
+
+[build-dependencies]
+
+[package.metadata.bootimage]
+# bootimage config if you use bootimage
