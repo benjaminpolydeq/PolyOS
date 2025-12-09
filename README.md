@@ -1,38 +1,21 @@
-# 🧬 PolyOS — Adaptive Recursive System Architecture (ARSA)
+# PolyOS
 
-### Author: Benjamin Amaad Kama  
-- 🔗 LinkedIn: [linkedin.com/in/benjamin-amaad-kama-a45082128](https://www.linkedin.com/in/benjamin-amaad-kama-a45082128)  
-- 🧬 GitHub: [github.com/benjaminpolydeq](https://github.com/benjaminpolydeq)  
-- 🛰️ Reddit: [reddit.com/u/benpolyseq](https://www.reddit.com/u/benpolyseq/s/0gpkl2D43U)
+PolyOS v1 — prototype OS skeleton: microkernel-friendly repo, ARS userspace daemon, Kivy mobile UI and QEMU test harness.
 
----
+See `docs/ARCHITECTURE.md` for details.
 
-## 🚀 Abstract
-**PolyOS** introduces the **Adaptive Recursive System Architecture (ARSA)** — a framework inspired by the *BenPolySeq* adaptive sequence.
+## Quick start (dev)
 
-Each system state depends on its two previous states:
-> F(n) = adapt(F(n−2), F(n−1))
+Requirements: rustup, cargo, qemu-system-x86_64, python3
 
-This recursive principle allows for self-regulating and evolving computational behavior.
+```bash
+# Build kernel (stub)
+cd kernel
+cargo build
+cd ..
 
----
+# Build initramfs
+tools/build_initramfs.sh
 
-## ⚙️ Vision
-PolyOS aims to create an **adaptive operating system** that:
-- Learns from its own usage
-- Optimizes resources autonomously
-- Evolves security models dynamically
-- Bridges mathematics, AI, and system architecture
-
----
-
-## 🔬 Applications
-- Adaptive AI architecture  
-- Self-optimizing operating systems  
-- Context-aware cryptography  
-- Recursive networking protocols  
-
----
-
-## 🌍 Join the Research
-This repository documents ongoing research on PolyOS, a new approach to intelligent, self-evolving computation.
+# Boot in QEMU
+tools/qemu_run.sh
