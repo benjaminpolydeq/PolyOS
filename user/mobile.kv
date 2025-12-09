@@ -1,0 +1,16 @@
+<MainLayout>:
+    orientation: "vertical"
+    padding: 10
+    spacing: 10
+
+    Label:
+        text: root.output_text
+        size_hint_y: 0.8
+        text_size: self.width, None
+        halign: "center"
+        valign: "middle"
+
+    Button:
+        text: "Run ARS Kernel"
+        size_hint_y: 0.2
+        on_press: root.run_kernel()
