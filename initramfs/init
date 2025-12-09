@@ -1,0 +1,8 @@
+#!/bin/sh
+mount -t proc proc /proc || true
+mount -t sysfs sys /sys || true
+echo "PolyOS initrd init"
+# Start ARS daemon
+/usr/bin/arsd &
+# Drop to sh
+exec /bin/sh
