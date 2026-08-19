@@ -21,4 +21,4 @@ if __name__ == "__main__":
     root = VirtualDirectory("root")
     root.add_dir("docs")
     root.add_file("readme.txt", "This is PolyOS virtual fs")
-    print("Root contents:", root.
+    print("Root contents:", root.list_contents())
