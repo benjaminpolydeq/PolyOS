@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "polyos"
+version = "0.1.0"
+description = "Adaptive Recursive System Architecture (ARSA) — Based on BenPolySeq"
+authors = [{name = "benjaminpolydeq"}]
+requires-python = ">=3.8"
+dependencies = ["kivy>=2.2.1"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4.3", "pytest-cov>=4.1.0", "ruff>=0.1.8"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B"]
+ignore = ["E501"]  # Line too long (handled by formatter)
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["user", "exemple"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
